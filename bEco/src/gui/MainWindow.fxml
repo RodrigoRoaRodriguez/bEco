@@ -39,7 +39,7 @@
             <ComboBox id="comboBox" fx:id="vehiclesComboBox" prefWidth="150.0" />
             <HBox alignment="CENTER" prefHeight="31.0" prefWidth="180.0" spacing="10.0">
               <children>
-                <RadioButton id="distance" fx:id="distanceRadioButton" mnemonicParsing="false" onAction="#changeText" selected="true" text="Strecka">
+                <RadioButton id="distance" fx:id="distanceRadioButton" mnemonicParsing="false" onAction="#changeText" selected="true" text="Sträcka">
                   <toggleGroup>
                     <ToggleGroup fx:id="unit" />
                   </toggleGroup>
@@ -57,7 +57,7 @@
         </VBox>
         <VBox alignment="CENTER" disable="false" focusTraversable="false" padding="$x1" pickOnBounds="true" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
           <children>
-            <Label fx:id="unitLabel" text="Strecka (km)" />
+            <Label fx:id="unitLabel" text="Sträcka (km)" />
             <TextField fx:id="textBox" />
           </children>
         </VBox>
@@ -71,7 +71,7 @@
         </VBox>
         <VBox alignment="CENTER" disable="false" focusTraversable="false" padding="$x1" pickOnBounds="true" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
           <children>
-            <Button mnemonicParsing="false" onAction="#addToList" prefHeight="21.999908447265625" text="Add to list" />
+            <Button minHeight="40.0" minWidth="70.0" mnemonicParsing="false" onAction="#addToList" prefHeight="21.999908447265625" text="Lägg till" />
           </children>
         </VBox>
         

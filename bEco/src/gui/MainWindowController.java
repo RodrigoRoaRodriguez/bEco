@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import logic.Trip;
@@ -134,46 +135,58 @@ public class MainWindowController {
         stage.setTitle("Line Chart Sample");
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Month");       
+        xAxis.setLabel("Datum");       
         
         //Create the chart
         final LineChart<String,Number> lineChart = 
                 new LineChart<String,Number>(xAxis,yAxis);
                 
-        lineChart.setTitle("Stock Monitoring, 2010");
+        lineChart.setTitle("Statistik");
         //Get selected indices
         ObservableList<Integer> indices = table.getSelectionModel().getSelectedIndices();
         
         //Define CO2 series
-        XYChart.Series series = new XYChart.Series();
-        series.setName("CO2 (g)");
+        XYChart.Series seriesCO2 = new XYChart.Series();
+        seriesCO2.setName("CO2 (g)");
+        XYChart.Series seriesTime = new XYChart.Series();
+        seriesTime.setName("Time (min)");
+        XYChart.Series seriesDistance = new XYChart.Series();
+        seriesDistance.setName("Sträcka (km)");
         
         //populating the series with data
         for(Integer index : indices){
         	Trip trip = tableData.get(index);
-        	series.getData().add(new XYChart.Data(trip.getVehicle().toString(), trip.getCO2()));
+        	seriesCO2.getData().add(new XYChart.Data(trip.getDate().toString(), trip.getCO2(), "test"));
+        	seriesTime.getData().add(new XYChart.Data(trip.getDate().toString(), trip.getTime()));
+        	seriesDistance.getData().add(new XYChart.Data(trip.getDate().toString(), trip.getDistance()));
         }
+
+        
+        //Show scene
         
         Scene scene  = new Scene(lineChart,800,600);
-        lineChart.getData().add(series);
+        lineChart.getData().add(seriesCO2);
+        lineChart.getData().add(seriesTime);
+        lineChart.getData().add(seriesDistance);
        
         stage.setScene(scene);
         stage.show();
     }
     
-
     @FXML
     void addToList(ActionEvent event) {
-    	System.out.println("Add to list");
-    	
-    	if(timeRadioButton.isSelected()){
-	    	Integer time = Integer.parseInt(textBox.getText());
-	    	Vehicle vehicle = vehiclesComboBox.getSelectionModel().getSelectedItem();
-	    	tableData.add(new Trip(time, vehicle, LocalDate.now()));
-    	}else{
-	    	Double distance = Double.parseDouble(textBox.getText());
-	    	Vehicle vehicle = vehiclesComboBox.getSelectionModel().getSelectedItem();
-	    	tableData.add(new Trip(distance, vehicle, LocalDate.now()));
+    	if(textBox.getText().isEmpty()){
+    		Toolkit.getDefaultToolkit().beep();
+    	}else{  
+	    	if(timeRadioButton.isSelected()){
+		    	Integer time = Integer.parseInt(textBox.getText());
+		    	Vehicle vehicle = vehiclesComboBox.getSelectionModel().getSelectedItem();
+		    	tableData.add(new Trip(time, vehicle, LocalDate.now()));
+	    	}else{
+		    	Double distance = Double.parseDouble(textBox.getText());
+		    	Vehicle vehicle = vehiclesComboBox.getSelectionModel().getSelectedItem();
+		    	tableData.add(new Trip(distance, vehicle, datePicker.getValue()));
+	    	}
     	}
     }
 
@@ -205,7 +218,7 @@ public class MainWindowController {
         
         comboBoxData =FXCollections.observableArrayList(          
                 new Vehicle("Fot", 4),
-                new Vehicle("Cyckel", 15),
+                new Vehicle("Cykel", 15),
                 new Vehicle("Buss, diesel: 21,8g CO2/person-km",CAR_SPEED , 21.8),
                 new Vehicle("Buss, biogas: 1,9g CO2/person-km",CAR_SPEED , 1.9),
                 new Vehicle("Egen bil: 109g CO2/person-km",CAR_SPEED , 109),

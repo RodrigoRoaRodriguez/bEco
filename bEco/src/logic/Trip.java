@@ -34,7 +34,7 @@ public class Trip {
 	}
 	
 	private int calculateTime(){
-		return (int) (distance.get()/vehicle.get().getkmperh())*60;
+		return (int) (distance.get()/vehicle.get().getkmperh()*60);
 	}
 	
 	private double calculateCO2(){
